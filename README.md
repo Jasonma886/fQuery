@@ -1,0 +1,2 @@
+# fQuery
+A fake jquery
