@@ -28,9 +28,9 @@ class FQuery {
       if (selector[ 0 ] === '<' &&
         selector[ selector.length - 1 ] === '>' &&
         selector.length >= 3) {
-        let reg = /[<>]/g
-        selector = selector.replace(reg, '')
-        results = [document.createElement(selector)]
+        let div = document.createElement('div')
+        div.innerHTML = selector
+        results = [div.childNodes[0]]
       } else {
         let arr = selector.split(' ')
         results = getElementsByTagName(document, arr)
@@ -75,7 +75,11 @@ class FQuery {
   }
   append (dom) {
     if (dom instanceof FQuery) {
-      this.results[0].append(dom.results[0])
+      if (this.results[0].append) {
+        this.results[0].append(dom.results[0])
+      } else {
+        this.results[0].appendChild(dom.results[0])
+      }
     } else {
       let temp = this.results[0].innerHTML
       this.results[0].innerHTML = temp + dom
